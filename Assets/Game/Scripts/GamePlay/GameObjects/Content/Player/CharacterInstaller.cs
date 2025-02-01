@@ -8,7 +8,10 @@ namespace Game.Content.Player
     {
         [SerializeField] private Rigidbody _rigidbody;
 
-        [Header("Move Settings")] [SerializeField] private float _speed;
+        [Header("Move Settings")] [SerializeField] private float _speed = 3f;
+
+        [Header("Jump Settings")] [SerializeField] private float _jumpForce = 7f;
+        [SerializeField] private float _jumpDelay = 1f;
 
         public override void InstallBindings()
         {
@@ -23,6 +26,10 @@ namespace Game.Content.Player
             Container.Bind<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_speed);
+
+            Container.BindInterfacesAndSelfTo<JumpComponent>()
+                .AsSingle()
+                .WithArguments(_jumpForce, _jumpDelay);
         }
     }
 }
