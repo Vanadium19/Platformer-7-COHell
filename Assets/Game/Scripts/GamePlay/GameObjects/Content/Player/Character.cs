@@ -7,13 +7,16 @@ namespace Game.Content.Player
     {
         private readonly MoveComponent _mover;
         private readonly JumpComponent _jumper;
+        private readonly GroundChecker _groundChecker;
 
-        public Character(MoveComponent mover, JumpComponent jumper)
+        public Character(MoveComponent mover,
+            JumpComponent jumper,
+            GroundChecker groundChecker)
         {
             _mover = mover;
             _jumper = jumper;
+            _groundChecker = groundChecker;
         }
-
 
         public void Move(Vector3 direction)
         {
@@ -22,6 +25,9 @@ namespace Game.Content.Player
 
         public void Jump()
         {
+            if (!_groundChecker.CheckGround())
+                return;
+
             _jumper.Jump();
         }
     }

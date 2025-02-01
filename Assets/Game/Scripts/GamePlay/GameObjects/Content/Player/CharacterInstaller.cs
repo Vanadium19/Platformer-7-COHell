@@ -12,6 +12,7 @@ namespace Game.Content.Player
 
         [Header("Jump Settings")] [SerializeField] private float _jumpForce = 7f;
         [SerializeField] private float _jumpDelay = 1f;
+        [SerializeField] private GroundCheckParams _groundCheckParams;
 
         public override void InstallBindings()
         {
@@ -30,6 +31,25 @@ namespace Game.Content.Player
             Container.BindInterfacesAndSelfTo<JumpComponent>()
                 .AsSingle()
                 .WithArguments(_jumpForce, _jumpDelay);
+
+            Container.Bind<GroundChecker>()
+                .AsSingle()
+                .WithArguments(_groundCheckParams);
         }
+
+        #region Debug
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+
+            //Jump
+            if (_groundCheckParams.Point == null)
+                return;
+
+            Gizmos.DrawWireCube(_groundCheckParams.Point.position, _groundCheckParams.OverlapSize);
+        }
+
+        #endregion
     }
 }
