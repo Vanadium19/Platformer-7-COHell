@@ -2,6 +2,7 @@
 {
     public interface IJumper
     {
-        public void Jump();
+        public bool Jump();
+        public void AddExtraForce(float multiplier);
     }
 }

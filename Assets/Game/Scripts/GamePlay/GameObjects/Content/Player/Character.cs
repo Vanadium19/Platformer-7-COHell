@@ -23,12 +23,17 @@ namespace Game.Content.Player
             _mover.Move(direction);
         }
 
-        public void Jump()
+        public bool Jump()
         {
             if (!_groundChecker.CheckGround())
-                return;
+                return false;
 
-            _jumper.Jump();
+            return _jumper.Jump();
+        }
+
+        public void AddExtraForce(float multiplier)
+        {
+            _jumper.AddExtraForce(multiplier);
         }
     }
 }

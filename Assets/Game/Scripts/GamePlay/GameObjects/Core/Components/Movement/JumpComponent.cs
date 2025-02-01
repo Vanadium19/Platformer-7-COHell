@@ -7,14 +7,16 @@ namespace Game.Core.Components
     {
         private readonly Rigidbody _rigidbody;
         private readonly float _force;
+        private readonly float _extraForce;
         private readonly float _delay;
 
         private float _currentTime;
 
-        public JumpComponent(Rigidbody rigidbody, float force, float delay)
+        public JumpComponent(Rigidbody rigidbody, float force, float extraForce, float delay)
         {
             _rigidbody = rigidbody;
             _force = force;
+            _extraForce = extraForce;
             _delay = delay;
         }
 
@@ -26,15 +28,23 @@ namespace Game.Core.Components
             _currentTime -= Time.deltaTime;
         }
 
-        public void Jump()
+        public bool Jump()
         {
             if (_currentTime > 0)
-                return;
+                return false;
 
             Vector3 force = Vector3.up * _force;
 
             _rigidbody.AddForce(force, ForceMode.Impulse);
             _currentTime = _delay;
+            return true;
+        }
+
+        public void AddExtraForce(float multiplier)
+        {
+            var force = Vector3.up * (_extraForce * multiplier);
+
+            _rigidbody.AddForce(force, ForceMode.Force);
         }
     }
 }

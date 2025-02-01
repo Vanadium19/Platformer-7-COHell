@@ -10,7 +10,8 @@ namespace Game.Content.Player
 
         [Header("Move Settings")] [SerializeField] private float _speed = 3f;
 
-        [Header("Jump Settings")] [SerializeField] private float _jumpForce = 7f;
+        [Header("Jump Settings")] [SerializeField] private float _jumpForce = 5f;
+        [SerializeField] private float _extraJumpForce = 3f;
         [SerializeField] private float _jumpDelay = 1f;
         [SerializeField] private GroundCheckParams _groundCheckParams;
 
@@ -30,7 +31,7 @@ namespace Game.Content.Player
 
             Container.BindInterfacesAndSelfTo<JumpComponent>()
                 .AsSingle()
-                .WithArguments(_jumpForce, _jumpDelay);
+                .WithArguments(_jumpForce, _extraJumpForce, _jumpDelay);
 
             Container.Bind<GroundChecker>()
                 .AsSingle()
