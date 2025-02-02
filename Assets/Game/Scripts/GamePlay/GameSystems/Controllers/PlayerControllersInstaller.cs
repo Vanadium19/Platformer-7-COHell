@@ -9,6 +9,10 @@ namespace Game.Controllers
     )]
     public class PlayerControllersInstaller : ScriptableObjectInstaller
     {
+        [SerializeField] private float _sensitivity = 1.2f;
+        [SerializeField] private float _verticalMinAngle = 10f;
+        [SerializeField] private float _verticalMaxAngle = 45f;
+
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<PlayerMoveController>()
@@ -17,6 +21,11 @@ namespace Game.Controllers
 
             Container.BindInterfacesTo<PlayerJumpController>()
                 .AsSingle()
+                .NonLazy();
+
+            Container.BindInterfacesTo<CameraController>()
+                .AsSingle()
+                .WithArguments(_sensitivity, _verticalMinAngle, _verticalMaxAngle)
                 .NonLazy();
         }
     }

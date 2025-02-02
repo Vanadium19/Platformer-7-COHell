@@ -1,5 +1,6 @@
 ﻿using Game.Core.Components;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Content.Player
@@ -11,6 +12,8 @@ namespace Game.Content.Player
         [SerializeField] private CollisionReceiver _platformTracker;
 
         [Header("Move Settings")] [SerializeField] private float _speed = 3f;
+
+        [Header("Rotation Settings")] [SerializeField] private float _sensitivity = 5f;
 
         [Header("Jump Settings")] [SerializeField] private float _jumpForce = 5f;
         [SerializeField] private float _extraJumpForce = 3f;
@@ -39,6 +42,10 @@ namespace Game.Content.Player
             Container.BindInterfacesAndSelfTo<JumpComponent>()
                 .AsSingle()
                 .WithArguments(_jumpForce, _extraJumpForce, _jumpDelay);
+
+            Container.BindInterfacesTo<RotationComponent>()
+                .AsSingle()
+                .WithArguments(_sensitivity);
 
             Container.BindInterfacesAndSelfTo<GroundChecker>()
                 .AsSingle()
