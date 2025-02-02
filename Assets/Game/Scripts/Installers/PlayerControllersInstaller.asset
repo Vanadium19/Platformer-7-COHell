@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3461d322d9a43c9821e5c46846cf1d7, type: 3}
   m_Name: PlayerControllersInstaller
   m_EditorClassIdentifier: 
+  _sensitivity: 1.2
+  _verticalMinAngle: 10
+  _verticalMaxAngle: 45
