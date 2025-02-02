@@ -6,7 +6,9 @@ namespace Game.Content.Player
 {
     public class CharacterInstaller : MonoInstaller
     {
+        [SerializeField] private Transform _transform;
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private CollisionReceiver _platformTracker;
 
         [Header("Move Settings")] [SerializeField] private float _speed = 3f;
 
@@ -25,6 +27,11 @@ namespace Game.Content.Player
                 .FromInstance(_rigidbody)
                 .AsSingle();
 
+            Container.Bind<Transform>()
+                .FromInstance(_transform)
+                .AsSingle();
+
+
             Container.Bind<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_speed);
@@ -33,9 +40,9 @@ namespace Game.Content.Player
                 .AsSingle()
                 .WithArguments(_jumpForce, _extraJumpForce, _jumpDelay);
 
-            Container.Bind<GroundChecker>()
+            Container.BindInterfacesAndSelfTo<GroundChecker>()
                 .AsSingle()
-                .WithArguments(_groundCheckParams);
+                .WithArguments(_groundCheckParams, _platformTracker);
         }
 
         #region Debug
