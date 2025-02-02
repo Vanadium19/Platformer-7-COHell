@@ -9,9 +9,9 @@ namespace Game.Controllers
         private const string XAxis = "Horizontal";
         private const string ZAxis = "Vertical";
 
-        private readonly IMover _player;
+        private readonly IMovable _player;
 
-        public PlayerMoveController(IMover player)
+        public PlayerMoveController(IMovable player)
         {
             _player = player;
         }
