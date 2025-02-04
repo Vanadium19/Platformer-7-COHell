@@ -22,6 +22,10 @@ namespace Game.Controllers
             Container.BindInterfacesTo<PlayerJumpController>()
                 .AsSingle()
                 .NonLazy();
+            
+            Container.BindInterfacesTo<PlayerInteractionController>()
+                .AsSingle()
+                .NonLazy();
 
             Container.BindInterfacesTo<CameraController>()
                 .AsSingle()
