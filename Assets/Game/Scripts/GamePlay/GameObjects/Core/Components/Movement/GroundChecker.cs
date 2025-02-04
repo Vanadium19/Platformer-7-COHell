@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Content.Environment;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +15,7 @@ namespace Game.Core.Components
         private readonly Vector3 _overlapSize;
         private readonly int _layerMask;
 
-        public event Action<Transform> ParentChanged;
+        private readonly ReactiveCommand<Transform> _parentChanged = new();
 
         public GroundChecker(GroundCheckParams checkParams, CollisionReceiver platformTracker)
         {
@@ -23,6 +24,8 @@ namespace Game.Core.Components
             _layerMask = checkParams.GroundLayer;
             _platformTracker = platformTracker;
         }
+
+        public IObservable<Transform> ParentChanged => _parentChanged;
 
         public void Initialize()
         {
@@ -42,7 +45,7 @@ namespace Game.Core.Components
             {
                 if (entity.TryGet(out Platform platform))
                 {
-                    ParentChanged?.Invoke(collision.collider.transform);
+                    _parentChanged.Execute(collision.collider.transform);
                 }
             }
         }
@@ -53,7 +56,7 @@ namespace Game.Core.Components
             {
                 if (entity.TryGet(out Platform platform))
                 {
-                    ParentChanged?.Invoke(null);
+                    _parentChanged.Execute(null);
                 }
             }
         }
@@ -68,7 +71,7 @@ namespace Game.Core.Components
             arrayPool.Return(colliders);
             return size > 0;
         }
-        
+
         private bool CheckNormal(Collision target)
         {
             foreach (var contact in target.contacts)
