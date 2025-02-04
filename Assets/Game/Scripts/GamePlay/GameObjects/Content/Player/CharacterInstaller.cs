@@ -11,6 +11,8 @@ namespace Game.Content.Player
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private CollisionReceiver _platformTracker;
 
+        [Header("Health Settings")] [SerializeField] private int _maxHealth = 10;
+
         [Header("Move Settings")] [SerializeField] private float _speed = 3f;
 
         [Header("Rotation Settings")] [SerializeField] private float _sensitivity = 5f;
@@ -34,7 +36,6 @@ namespace Game.Content.Player
                 .FromInstance(_transform)
                 .AsSingle();
 
-
             Container.Bind<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_speed);
@@ -50,6 +51,13 @@ namespace Game.Content.Player
             Container.BindInterfacesAndSelfTo<GroundChecker>()
                 .AsSingle()
                 .WithArguments(_groundCheckParams, _platformTracker);
+            
+            Container.Bind<HealthComponent>()
+                .AsSingle()
+                .WithArguments(_maxHealth);
+
+            Container.BindInterfacesAndSelfTo<InteractionComponent>()
+                .AsSingle();
         }
 
         #region Debug

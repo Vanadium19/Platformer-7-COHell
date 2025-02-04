@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Game.Core.Components
 {
-    public class Health
+    public class HealthComponent
     {
         private readonly int _maxHealth;
 
         private readonly ReactiveProperty<int> _currentHealth = new();
         private readonly ReactiveCommand _died = new();
 
-        public Health(int maxHealth)
+        public HealthComponent(int maxHealth)
         {
             _maxHealth = maxHealth;
             _currentHealth.Value = maxHealth;

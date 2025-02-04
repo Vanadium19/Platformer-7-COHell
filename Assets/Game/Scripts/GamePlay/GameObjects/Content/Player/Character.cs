@@ -6,13 +6,14 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, IDisposable, IMovable, IJumper
+    public class Character : IInitializable, IDisposable, IDamagable, IMovable, IJumper, IIInteraction
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
         private readonly JumpComponent _jumper;
         private readonly GroundChecker _groundChecker;
-        private readonly Health _health;
+        private readonly HealthComponent _health;
+        private readonly InteractionComponent _interaction;
 
         private readonly CompositeDisposable _disposables = new();
         private readonly Vector3 _startPosition;
@@ -23,14 +24,16 @@ namespace Game.Content.Player
             MoveComponent mover,
             JumpComponent jumper,
             GroundChecker groundChecker,
-            Health health)
+            HealthComponent health,
+            InteractionComponent interaction)
         {
             _transform = transform;
             _mover = mover;
             _jumper = jumper;
             _groundChecker = groundChecker;
             _health = health;
-            
+            _interaction = interaction;
+
             _startPosition = transform.position;
         }
 
@@ -45,6 +48,11 @@ namespace Game.Content.Player
         public void Dispose()
         {
             _disposables.Dispose();
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _health.TakeDamage(damage);
         }
 
         public void Move(Vector3 direction)
@@ -72,6 +80,11 @@ namespace Game.Content.Player
         public void AddExtraForce(float multiplier)
         {
             _jumper.AddExtraForce(multiplier);
+        }
+
+        public void Interact()
+        {
+            _interaction.Interact();
         }
 
         private void OnParentChanged(Transform parent)
