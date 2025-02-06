@@ -1,6 +1,6 @@
 ﻿namespace Game.Core.Components
 {
-    public interface Iinteractable
+    public interface IInteraction
     {
         public void Interact();
     }

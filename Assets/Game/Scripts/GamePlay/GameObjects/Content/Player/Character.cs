@@ -6,53 +6,42 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, IDisposable, IDamagable, IMovable, IJumper, IIInteraction
+    public class Character : IInitializable, IDisposable, IMovable
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
-        private readonly JumpComponent _jumper;
         private readonly GroundChecker _groundChecker;
         private readonly HealthComponent _health;
-        private readonly InteractionComponent _interaction;
 
         private readonly CompositeDisposable _disposables = new();
         private readonly Vector3 _startPosition;
-        
+
         private Transform _currentParent;
 
         public Character(Transform transform,
             MoveComponent mover,
             JumpComponent jumper,
             GroundChecker groundChecker,
-            HealthComponent health,
-            InteractionComponent interaction)
+            HealthComponent health)
         {
             _transform = transform;
             _mover = mover;
-            _jumper = jumper;
             _groundChecker = groundChecker;
             _health = health;
-            _interaction = interaction;
 
             _startPosition = transform.position;
-        }
 
-        public Vector3 Position => _transform.position;
+            SetConditions(groundChecker, health, jumper, mover);
+        }
 
         public void Initialize()
         {
-            _health.Died.Subscribe(_=>OnPlayerDied()).AddTo(_disposables);
             _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
         }
 
         public void Dispose()
         {
             _disposables.Dispose();
-        }
-
-        public void TakeDamage(int damage)
-        {
-            _health.TakeDamage(damage);
         }
 
         public void Move(Vector3 direction)
@@ -69,34 +58,26 @@ namespace Game.Content.Player
             _mover.AddExtraVelocity(velocity);
         }
 
-        public bool Jump()
+        public void ResetPlayer()
         {
-            if (!_groundChecker.CheckGround())
-                return false;
-
-            return _jumper.Jump();
+            _transform.position = _startPosition;
+            _health.ResetHealth();
         }
 
-        public void AddExtraForce(float multiplier)
+        private void SetConditions(GroundChecker groundChecker,
+            HealthComponent health,
+            JumpComponent jumper,
+            MoveComponent mover)
         {
-            _jumper.AddExtraForce(multiplier);
-        }
-
-        public void Interact()
-        {
-            _interaction.Interact();
+            jumper.AddCondition(groundChecker.CheckGround);
+            jumper.AddCondition(() => !health.IsDead);
+            mover.AddCondition(() => !health.IsDead);
         }
 
         private void OnParentChanged(Transform parent)
         {
             _transform.SetParent(parent);
             _currentParent = parent;
-        }
-
-        private void OnPlayerDied()
-        {
-            _transform.position = _startPosition;
-            _health.ResetHealth();
         }
     }
 }

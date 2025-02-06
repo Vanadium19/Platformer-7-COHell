@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Core.Components
 {
-    public class HealthComponent
+    public class HealthComponent : IDamagable
     {
         private readonly int _maxHealth;
 
@@ -19,6 +19,8 @@ namespace Game.Core.Components
 
         public IReadOnlyReactiveProperty<int> CurrentHealth => _currentHealth;
         public IObservable<Unit> Died => _died;
+
+        public bool IsDead => _currentHealth.Value <= 0;
 
         public void TakeDamage(int damage)
         {

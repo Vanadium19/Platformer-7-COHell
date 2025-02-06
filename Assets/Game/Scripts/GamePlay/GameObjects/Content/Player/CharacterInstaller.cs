@@ -1,4 +1,5 @@
 ﻿using Game.Core.Components;
+using Game.View;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -22,12 +23,16 @@ namespace Game.Content.Player
         [SerializeField] private float _jumpDelay = 1f;
         [SerializeField] private GroundCheckParams _groundCheckParams;
 
+        [Header("View Settings")] [SerializeField] private PlayerView _playerView;
+
         public override void InstallBindings()
         {
+            //Main
             Container.BindInterfacesAndSelfTo<Character>()
                 .AsSingle()
                 .NonLazy();
 
+            //MonoBehaviors
             Container.Bind<Rigidbody>()
                 .FromInstance(_rigidbody)
                 .AsSingle();
@@ -36,6 +41,7 @@ namespace Game.Content.Player
                 .FromInstance(_transform)
                 .AsSingle();
 
+            //Components
             Container.Bind<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_speed);
@@ -51,12 +57,22 @@ namespace Game.Content.Player
             Container.BindInterfacesAndSelfTo<GroundChecker>()
                 .AsSingle()
                 .WithArguments(_groundCheckParams, _platformTracker);
-            
-            Container.Bind<HealthComponent>()
+
+            Container.BindInterfacesAndSelfTo<HealthComponent>()
                 .AsSingle()
                 .WithArguments(_maxHealth);
 
             Container.BindInterfacesAndSelfTo<InteractionComponent>()
+                .AsSingle();
+
+            //Presenter
+            Container.BindInterfacesTo<PlayerPresenter>()
+                .AsSingle()
+                .NonLazy();
+
+            //View
+            Container.Bind<PlayerView>()
+                .FromInstance(_playerView)
                 .AsSingle();
         }
 

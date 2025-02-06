@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3997032640973122106}
   - component: {fileID: 154233695856633432}
   - component: {fileID: 6369087849985991531}
-  - component: {fileID: 288341179194429176}
   m_Layer: 8
   m_Name: MovingPlatform
   m_TagString: Untagged
@@ -51,7 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 288341179194429176}
   - {fileID: 6369087849985991531}
   _installerPrefabs: []
   _autoRun: 1
@@ -69,20 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 6714208851526175667}
-  _rigidbody: {fileID: 0}
   _speed: 3
---- !u!114 &288341179194429176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392060739140072976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec5afeb05cff4493add95ebbed26848c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _startPoint: {fileID: 6176557258033587772}
   _endPoint: {fileID: 2375436083578666668}
 --- !u!1 &2088202294696661155

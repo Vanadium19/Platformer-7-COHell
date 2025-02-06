@@ -6,9 +6,9 @@ namespace Game.Controllers
 {
     public class PlayerInteractionController : ITickable
     {
-        private readonly IIInteraction _interaction;
+        private readonly IInteraction _interaction;
 
-        public PlayerInteractionController(IIInteraction interaction)
+        public PlayerInteractionController(IInteraction interaction)
         {
             _interaction = interaction;
         }
