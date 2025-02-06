@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, IDisposable, IDamagable, IMovable, IJumper, IIInteraction
+    public class Character : IInitializable, IDisposable, IMovable, IJumper, IIInteraction
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
@@ -48,11 +48,6 @@ namespace Game.Content.Player
         public void Dispose()
         {
             _disposables.Dispose();
-        }
-
-        public void TakeDamage(int damage)
-        {
-            _health.TakeDamage(damage);
         }
 
         public void Move(Vector3 direction)

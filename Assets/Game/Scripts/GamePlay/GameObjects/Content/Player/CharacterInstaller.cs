@@ -52,7 +52,7 @@ namespace Game.Content.Player
                 .AsSingle()
                 .WithArguments(_groundCheckParams, _platformTracker);
             
-            Container.Bind<HealthComponent>()
+            Container.BindInterfacesAndSelfTo<HealthComponent>()
                 .AsSingle()
                 .WithArguments(_maxHealth);
 

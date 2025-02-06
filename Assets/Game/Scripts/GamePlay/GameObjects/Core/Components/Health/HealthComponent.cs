@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Core.Components
 {
-    public class HealthComponent
+    public class HealthComponent : IDamagable
     {
         private readonly int _maxHealth;
 
