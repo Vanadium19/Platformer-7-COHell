@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Game.Content.Environment
 {
-    public class IncludedPlatform : IInitializable, IDisposable, Iinteractable
+    public class IncludedPlatform : IInitializable, IDisposable, IInteraction
     {
         private readonly TriggerReceiver _triggerReceiver;
         private readonly GameObject _platform;

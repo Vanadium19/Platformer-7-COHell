@@ -6,13 +6,12 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, IDisposable, IMovable, IIInteraction
+    public class Character : IInitializable, IDisposable, IMovable
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
         private readonly GroundChecker _groundChecker;
         private readonly HealthComponent _health;
-        private readonly InteractionComponent _interaction;
 
         private readonly CompositeDisposable _disposables = new();
         private readonly Vector3 _startPosition;
@@ -23,14 +22,12 @@ namespace Game.Content.Player
             MoveComponent mover,
             JumpComponent jumper,
             GroundChecker groundChecker,
-            HealthComponent health,
-            InteractionComponent interaction)
+            HealthComponent health)
         {
             _transform = transform;
             _mover = mover;
             _groundChecker = groundChecker;
             _health = health;
-            _interaction = interaction;
 
             _startPosition = transform.position;
 
@@ -60,11 +57,6 @@ namespace Game.Content.Player
         public void AddExtraVelocity(Vector3 velocity)
         {
             _mover.AddExtraVelocity(velocity);
-        }
-
-        public void Interact()
-        {
-            _interaction.Interact();
         }
 
         private void SetConditions(GroundChecker groundChecker, JumpComponent jumper)

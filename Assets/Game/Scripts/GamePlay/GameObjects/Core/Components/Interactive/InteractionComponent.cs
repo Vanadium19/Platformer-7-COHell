@@ -2,17 +2,17 @@
 
 namespace Game.Core.Components
 {
-    public class InteractionComponent : IInteractionList
+    public class InteractionComponent : IInteractionList, IInteraction
     {
-        private readonly List<Iinteractable> _interactables = new();
+        private readonly List<IInteraction> _interactables = new();
 
-        public void AddInteractable(Iinteractable value)
+        public void AddInteractable(IInteraction value)
         {
             if (!_interactables.Contains(value))
                 _interactables.Add(value);
         }
 
-        public void RemoveInteractable(Iinteractable value)
+        public void RemoveInteractable(IInteraction value)
         {
             _interactables.Remove(value);
         }
