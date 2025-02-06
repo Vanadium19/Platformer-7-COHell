@@ -2,7 +2,7 @@
 
 namespace Game.Core.Components
 {
-    public class MoveComponent
+    public class MoveComponent : EntityComponent
     {
         private readonly Transform _transform;
         private readonly Rigidbody _rigidbody;
@@ -19,6 +19,9 @@ namespace Game.Core.Components
 
         public void Move(Vector3 direction)
         {
+            if (!CheckConditions())
+                return;
+
             Vector3 velocity = direction * _speed + Vector3.up * _rigidbody.velocity.y;
             velocity = _transform.rotation * velocity;
             velocity += _extraVelocity;

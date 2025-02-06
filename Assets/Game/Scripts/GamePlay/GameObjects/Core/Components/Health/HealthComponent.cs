@@ -20,6 +20,8 @@ namespace Game.Core.Components
         public IReadOnlyReactiveProperty<int> CurrentHealth => _currentHealth;
         public IObservable<Unit> Died => _died;
 
+        public bool IsDead => _currentHealth.Value <= 0;
+
         public void TakeDamage(int damage)
         {
             if (damage <= 0)

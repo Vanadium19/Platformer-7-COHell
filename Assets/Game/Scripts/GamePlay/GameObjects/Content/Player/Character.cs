@@ -31,12 +31,11 @@ namespace Game.Content.Player
 
             _startPosition = transform.position;
 
-            SetConditions(groundChecker, jumper);
+            SetConditions(groundChecker, health, jumper, mover);
         }
 
         public void Initialize()
         {
-            _health.Died.Subscribe(_ => OnPlayerDied()).AddTo(_disposables);
             _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
         }
 
@@ -59,21 +58,26 @@ namespace Game.Content.Player
             _mover.AddExtraVelocity(velocity);
         }
 
-        private void SetConditions(GroundChecker groundChecker, JumpComponent jumper)
+        public void ResetPlayer()
+        {
+            _transform.position = _startPosition;
+            _health.ResetHealth();
+        }
+
+        private void SetConditions(GroundChecker groundChecker,
+            HealthComponent health,
+            JumpComponent jumper,
+            MoveComponent mover)
         {
             jumper.AddCondition(groundChecker.CheckGround);
+            jumper.AddCondition(() => !health.IsDead);
+            mover.AddCondition(() => !health.IsDead);
         }
 
         private void OnParentChanged(Transform parent)
         {
             _transform.SetParent(parent);
             _currentParent = parent;
-        }
-
-        private void OnPlayerDied()
-        {
-            _transform.position = _startPosition;
-            _health.ResetHealth();
         }
     }
 }

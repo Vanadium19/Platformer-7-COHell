@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 5173073907281464146}
   - component: {fileID: 7958760408055886465}
   - component: {fileID: -2144176194088430201}
+  - component: {fileID: 5890010887531931812}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -427,6 +428,7 @@ MonoBehaviour:
   _transform: {fileID: 8395923706410608590}
   _rigidbody: {fileID: 19485171584184275}
   _platformTracker: {fileID: -2144176194088430201}
+  _maxHealth: 10
   _speed: 3
   _sensitivity: 3
   _jumpForce: 5
@@ -438,6 +440,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 320
     _overlapSize: {x: 1, y: 0.2, z: 1}
+  _playerView: {fileID: 5890010887531931812}
 --- !u!114 &7958760408055886465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,3 +466,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3139eeea98d8429ba94305f33fe43076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5890010887531931812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898139858041808467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4715a545fb05411ea8e2dd3e34c415e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 976853040720404482}
+  _color: {r: 1, g: 0.15644124, b: 0, a: 1}
+  _duration: 2
+  _interval: 0.25
