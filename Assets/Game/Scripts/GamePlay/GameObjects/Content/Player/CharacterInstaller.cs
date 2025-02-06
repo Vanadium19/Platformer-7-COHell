@@ -24,10 +24,12 @@ namespace Game.Content.Player
 
         public override void InstallBindings()
         {
+            //Main
             Container.BindInterfacesAndSelfTo<Character>()
                 .AsSingle()
                 .NonLazy();
 
+            //MonoBehaviors
             Container.Bind<Rigidbody>()
                 .FromInstance(_rigidbody)
                 .AsSingle();
@@ -36,6 +38,7 @@ namespace Game.Content.Player
                 .FromInstance(_transform)
                 .AsSingle();
 
+            //Components
             Container.Bind<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_speed);

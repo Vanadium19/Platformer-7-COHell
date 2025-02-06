@@ -6,18 +6,17 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, IDisposable, IMovable, IJumper, IIInteraction
+    public class Character : IInitializable, IDisposable, IMovable, IIInteraction
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
-        private readonly JumpComponent _jumper;
         private readonly GroundChecker _groundChecker;
         private readonly HealthComponent _health;
         private readonly InteractionComponent _interaction;
 
         private readonly CompositeDisposable _disposables = new();
         private readonly Vector3 _startPosition;
-        
+
         private Transform _currentParent;
 
         public Character(Transform transform,
@@ -29,19 +28,18 @@ namespace Game.Content.Player
         {
             _transform = transform;
             _mover = mover;
-            _jumper = jumper;
             _groundChecker = groundChecker;
             _health = health;
             _interaction = interaction;
 
             _startPosition = transform.position;
-        }
 
-        public Vector3 Position => _transform.position;
+            SetConditions(groundChecker, jumper);
+        }
 
         public void Initialize()
         {
-            _health.Died.Subscribe(_=>OnPlayerDied()).AddTo(_disposables);
+            _health.Died.Subscribe(_ => OnPlayerDied()).AddTo(_disposables);
             _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
         }
 
@@ -64,22 +62,14 @@ namespace Game.Content.Player
             _mover.AddExtraVelocity(velocity);
         }
 
-        public bool Jump()
-        {
-            if (!_groundChecker.CheckGround())
-                return false;
-
-            return _jumper.Jump();
-        }
-
-        public void AddExtraForce(float multiplier)
-        {
-            _jumper.AddExtraForce(multiplier);
-        }
-
         public void Interact()
         {
             _interaction.Interact();
+        }
+
+        private void SetConditions(GroundChecker groundChecker, JumpComponent jumper)
+        {
+            jumper.AddCondition(groundChecker.CheckGround);
         }
 
         private void OnParentChanged(Transform parent)

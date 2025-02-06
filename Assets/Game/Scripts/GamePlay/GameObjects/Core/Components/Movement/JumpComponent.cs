@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Game.Core.Components
 {
-    public class JumpComponent : ITickable
+    public class JumpComponent : EntityComponent, ITickable, IJumper
     {
         private readonly Rigidbody _rigidbody;
         private readonly float _force;
@@ -31,6 +31,9 @@ namespace Game.Core.Components
         public bool Jump()
         {
             if (_currentTime > 0)
+                return false;
+
+            if (!CheckConditions())
                 return false;
 
             Vector3 force = Vector3.up * _force;
