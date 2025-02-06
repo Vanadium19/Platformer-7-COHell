@@ -7,27 +7,24 @@ namespace Game.Content.Environment
     public class PlatformInstaller : MonoInstaller
     {
         [SerializeField] private Transform _transform;
-        [SerializeField] private Rigidbody _rigidbody;
 
         [Header("Move Settings")] [SerializeField] private float _speed = 3f;
+        [SerializeField] private Transform _startPoint;
+        [SerializeField] private Transform _endPoint;
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<Platform>()
+            Container.Bind<Platform>()
                 .AsSingle()
                 .NonLazy();
-
-            Container.Bind<Rigidbody>()
-                .FromInstance(_rigidbody)
-                .AsSingle();
 
             Container.Bind<Transform>()
                 .FromInstance(_transform)
                 .AsSingle();
 
-            Container.Bind<TransformMoveComponent>()
+            Container.BindInterfacesTo<PatrolComponent>()
                 .AsSingle()
-                .WithArguments(_speed);
+                .WithArguments(_startPoint.position, _endPoint.position, _speed);
         }
     }
 }
