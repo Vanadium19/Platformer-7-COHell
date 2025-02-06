@@ -11,18 +11,16 @@ namespace Game.Content.Environment
     public class IncludedPlatform : IInitializable, IDisposable, IInteraction
     {
         private readonly TriggerReceiver _triggerReceiver;
-        private readonly GameObject _platform;
-        private readonly float _delay;
+        private readonly DelayedPatrolComponent _patrolComponent;
 
         private readonly ReactiveCommand<Action> _platformEnabled = new();
-
+        
         private bool _isActive;
 
-        public IncludedPlatform(TriggerReceiver triggerReceiver, GameObject platform, float delay)
+        public IncludedPlatform(TriggerReceiver triggerReceiver, DelayedPatrolComponent patrolComponent)
         {
             _triggerReceiver = triggerReceiver;
-            _platform = platform;
-            _delay = delay;
+            _patrolComponent = patrolComponent;
         }
 
         public IObservable<Action> PlatformEnabled => _platformEnabled;
@@ -44,18 +42,9 @@ namespace Game.Content.Environment
             if (_isActive)
                 return;
 
-            _platformEnabled.Execute(() => EnablePlatform().Forget());
-        }
-
-        private async UniTask EnablePlatform()
-        {
             _isActive = true;
-            _platform.SetActive(true);
-
-            await UniTask.Delay(TimeSpan.FromSeconds(_delay));
-
-            _platform.SetActive(false);
-            _isActive = false;
+            _patrolComponent.Returned += OnPlatformReturned;
+            _platformEnabled.Execute(() => _patrolComponent.Activate());
         }
 
         private void OnEntered(Collider target)
@@ -78,6 +67,12 @@ namespace Game.Content.Environment
                     player.RemoveInteractable(this);
                 }
             }
+        }
+
+        private void OnPlatformReturned()
+        {
+            _isActive = false;
+            _patrolComponent.Returned -= OnPlatformReturned;
         }
     }
 }

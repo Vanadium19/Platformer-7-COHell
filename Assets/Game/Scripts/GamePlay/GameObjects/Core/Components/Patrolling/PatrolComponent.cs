@@ -27,11 +27,19 @@ namespace Game.Core.Components
 
         public void FixedTick()
         {
+            if (_targetPosition == _transform.position)
+                return;
+            
             var position = Vector3.MoveTowards(_transform.position, _targetPosition, _speed * Time.fixedDeltaTime);
             _transform.position = position;
 
             if (_targetPosition == position)
-                _targetPosition = _targetPosition == _startPosition ? _endPosition : _startPosition;
+                ChangeTargetPosition();
+        }
+
+        protected virtual void ChangeTargetPosition()
+        {
+            _targetPosition = _targetPosition == _startPosition ? _endPosition : _startPosition;
         }
     }
 }
