@@ -16,8 +16,7 @@ namespace Game.Content.Player
         private readonly ReactiveProperty<bool> _isMoving = new();
         private readonly CompositeDisposable _disposables = new();
 
-        private readonly Vector3 _startPosition;
-
+        private Vector3 _spawnPosition;
         private Transform _currentParent;
 
         public Character(Transform transform,
@@ -31,7 +30,7 @@ namespace Game.Content.Player
             _groundChecker = groundChecker;
             _health = health;
 
-            _startPosition = transform.position;
+            _spawnPosition = transform.position;
 
             SetConditions(groundChecker, health, jumper, mover);
         }
@@ -70,9 +69,14 @@ namespace Game.Content.Player
 
         public void ResetPlayer()
         {
-            _transform.position = _startPosition;
+            _transform.position = _spawnPosition;
             _mover.Freeze(false);
             _health.ResetHealth();
+        }
+
+        public void SetSpawnPosition(Vector3 value)
+        {
+            _spawnPosition = value;
         }
 
         private void SetConditions(GroundChecker groundChecker,
@@ -93,7 +97,6 @@ namespace Game.Content.Player
 
         private void OnCharacterDied()
         {
-            Debug.Log("Die");
             _mover.Freeze(true);
         }
     }
