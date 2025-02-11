@@ -10,6 +10,8 @@ namespace Game.Content.Environment
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("Entered DeadZone");
+            
             if (other.TryGetComponent(out IEntity entity))
             {
                 if (entity.TryGet(out IDamagable target))

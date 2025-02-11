@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.Core.Components
 {
@@ -17,14 +19,21 @@ namespace Game.Core.Components
             _speed = speed;
         }
 
+        public bool IsMoving { get; private set; }
+
         public void Move(Vector3 direction)
         {
+            if (_rigidbody.isKinematic)
+                return;
+
             if (!CheckConditions())
                 return;
 
             Vector3 velocity = direction * _speed + Vector3.up * _rigidbody.velocity.y;
             velocity = _transform.rotation * velocity;
             velocity += _extraVelocity;
+
+            IsMoving = !Mathf.Approximately(velocity.x, 0f);
 
             _rigidbody.velocity = velocity;
             _extraVelocity = Vector3.zero;
@@ -33,6 +42,17 @@ namespace Game.Core.Components
         public void AddExtraVelocity(Vector3 velocity)
         {
             _extraVelocity = velocity;
+        }
+
+        public void Freeze(bool value)
+        {
+            if (value)
+            {
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero;
+            }
+
+            _rigidbody.isKinematic = value;
         }
     }
 }
