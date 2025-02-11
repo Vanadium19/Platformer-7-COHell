@@ -15,14 +15,14 @@ namespace Game.Controllers
         private readonly CharacterProvider _player;
 
         private readonly CompositeDisposable _disposables = new();
-        private readonly ReactiveCommand _levelRestarted = new();
+        private readonly ReactiveCommand _levelLost = new();
 
         public LevelController(CharacterProvider player)
         {
             _player = player;
         }
 
-        public IObservable<Unit> LevelRestarted => _levelRestarted;
+        public IObservable<Unit> LevelLost => _levelLost;
 
         public void Initialize()
         {
@@ -44,7 +44,7 @@ namespace Game.Controllers
             await UniTask.Delay(TimeSpan.FromSeconds(LevelRestartDelay));
             
             _player.Get<Character>().ResetPlayer();
-            _levelRestarted.Execute();
+            _levelLost.Execute();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Game.Controllers
                 .AsSingle()
                 .WithArguments(_player);
 
-            Container.BindInterfacesTo<LevelController>()
+            Container.BindInterfacesAndSelfTo<LevelController>()
                 .AsSingle()
                 .NonLazy();
         }

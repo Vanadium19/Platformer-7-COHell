@@ -93,6 +93,7 @@ namespace Game.Content.Player
 
         private void OnCharacterDied()
         {
+            Debug.Log("Die");
             _mover.Freeze(true);
         }
     }
