@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, IDisposable, IMovable
+    public class Character : IInitializable, ITickable, IDisposable, IMovable
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
@@ -18,6 +18,8 @@ namespace Game.Content.Player
 
         private Transform _currentParent;
 
+        private readonly ReactiveProperty<bool> _isMoving = new();
+        
         public Character(Transform transform,
             MoveComponent mover,
             JumpComponent jumper,
@@ -33,10 +35,17 @@ namespace Game.Content.Player
 
             SetConditions(groundChecker, health, jumper, mover);
         }
+        
+        public IReadOnlyReactiveProperty<bool> IsMoving => _isMoving;
 
         public void Initialize()
         {
             _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
+        }
+
+        public void Tick()
+        {
+            _isMoving.Value = _mover.IsMoving && !_health.IsDead;
         }
 
         public void Dispose()

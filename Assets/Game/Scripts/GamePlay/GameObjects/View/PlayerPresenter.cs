@@ -26,6 +26,7 @@ namespace Game.View
         public void Initialize()
         {
             _playerHealth.Died.Subscribe(_ => OnPlayerDied()).AddTo(_disposables);
+            _character.IsMoving.Subscribe(SetMoveAnimation).AddTo(_disposables);
         }
 
         public void Dispose()
@@ -36,6 +37,11 @@ namespace Game.View
         private void OnPlayerDied()
         {
             _view.Die(_character.ResetPlayer);
+        }
+
+        private void SetMoveAnimation(bool value)
+        {
+            _view.SetMoveAnimation(value);
         }
     }
 }
