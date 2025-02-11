@@ -9,14 +9,14 @@ namespace Game.View
     {
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Color _color;
-        
+
         private Character _character;
-        
+
         [SerializeField] private int _duration = 2;
         [SerializeField] private float _interval = 0.25f;
 
         private Animator _animator;
-        
+
         private Color _startColor;
 
         private void Awake()
@@ -28,19 +28,15 @@ namespace Game.View
         {
             Debug.Log($"Run {value}");
         }
-        
-        public void Die(Action callback = null)
+
+        public void Die()
         {
             _meshRenderer.material.color = _startColor;
 
             _meshRenderer.material.DOColor(_color, _interval)
                 .SetLoops((int)(_duration / _interval), LoopType.Yoyo)
                 .SetEase(Ease.Linear)
-                .OnComplete(() =>
-                {
-                    callback?.Invoke();
-                    _meshRenderer.material.color = _startColor;
-                });
+                .OnComplete(() => _meshRenderer.material.color = _startColor);
         }
     }
 }

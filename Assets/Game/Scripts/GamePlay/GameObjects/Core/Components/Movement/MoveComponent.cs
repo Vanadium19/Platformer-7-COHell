@@ -18,11 +18,17 @@ namespace Game.Core.Components
             _rigidbody = rigidbody;
             _speed = speed;
         }
-        
+
         public bool IsMoving { get; private set; }
 
         public void Move(Vector3 direction)
         {
+            if (_rigidbody.isKinematic)
+                return;
+
+            if (!CheckConditions())
+                return;
+
             Vector3 velocity = direction * _speed + Vector3.up * _rigidbody.velocity.y;
             velocity = _transform.rotation * velocity;
             velocity += _extraVelocity;
@@ -36,6 +42,17 @@ namespace Game.Core.Components
         public void AddExtraVelocity(Vector3 velocity)
         {
             _extraVelocity = velocity;
+        }
+
+        public void Freeze(bool value)
+        {
+            if (value)
+            {
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero;
+            }
+
+            _rigidbody.isKinematic = value;
         }
     }
 }

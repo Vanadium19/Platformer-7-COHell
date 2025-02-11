@@ -13,13 +13,13 @@ namespace Game.Content.Player
         private readonly GroundChecker _groundChecker;
         private readonly HealthComponent _health;
 
+        private readonly ReactiveProperty<bool> _isMoving = new();
         private readonly CompositeDisposable _disposables = new();
+
         private readonly Vector3 _startPosition;
 
         private Transform _currentParent;
 
-        private readonly ReactiveProperty<bool> _isMoving = new();
-        
         public Character(Transform transform,
             MoveComponent mover,
             JumpComponent jumper,
@@ -35,12 +35,13 @@ namespace Game.Content.Player
 
             SetConditions(groundChecker, health, jumper, mover);
         }
-        
+
         public IReadOnlyReactiveProperty<bool> IsMoving => _isMoving;
 
         public void Initialize()
         {
             _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
+            _health.Died.Subscribe(_ => OnCharacterDied()).AddTo(_disposables);
         }
 
         public void Tick()
@@ -70,6 +71,7 @@ namespace Game.Content.Player
         public void ResetPlayer()
         {
             _transform.position = _startPosition;
+            _mover.Freeze(false);
             _health.ResetHealth();
         }
 
@@ -87,6 +89,11 @@ namespace Game.Content.Player
         {
             _transform.SetParent(parent);
             _currentParent = parent;
+        }
+
+        private void OnCharacterDied()
+        {
+            _mover.Freeze(true);
         }
     }
 }

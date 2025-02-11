@@ -36,7 +36,7 @@ namespace Game.View
 
         private void OnPlayerDied()
         {
-            _view.Die(_character.ResetPlayer);
+            _view.Die();
         }
 
         private void SetMoveAnimation(bool value)
