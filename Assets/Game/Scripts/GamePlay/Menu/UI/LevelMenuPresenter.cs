@@ -26,8 +26,12 @@ namespace Game.Menu.UI
         public void Initialize()
         {
             _levelController.LevelLost.Subscribe(_ => OnLevelLost()).AddTo(_disposables);
+
             _levelMenu.LevelRestarted.Subscribe(_ => OnLevelRestarted()).AddTo(_disposables);
             _levelMenu.Exited.Subscribe(_ => OnExited()).AddTo(_disposables);
+
+            _levelMenu.MenuOpened.Subscribe(_ => OnMenuOpened()).AddTo(_disposables);
+            _levelMenu.Continued.Subscribe(_ => OnContinued()).AddTo(_disposables);
         }
 
         public void Dispose()
@@ -50,6 +54,16 @@ namespace Game.Menu.UI
         private void OnExited()
         {
             _menuFacade.ReturnToMainMenu();
+        }
+
+        private void OnMenuOpened()
+        {
+            _menuFacade.PauseGame();
+        }
+
+        private void OnContinued()
+        {
+            _menuFacade.ContinueGame();
         }
     }
 }
