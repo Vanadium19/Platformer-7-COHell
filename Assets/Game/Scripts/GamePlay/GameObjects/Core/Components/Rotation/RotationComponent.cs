@@ -3,13 +3,11 @@ using Zenject;
 
 namespace Game.Core.Components
 {
-    public class RotationComponent : ITickable
+    public class RotationComponent : IRotater
     {
-        private const string Axis = "Mouse X";
-        
         private readonly Transform _transform;
         private readonly float _sensitivity;
-        
+
         private float _horizontalAngle;
 
         public RotationComponent(Transform transform, float sensitivity)
@@ -18,14 +16,9 @@ namespace Game.Core.Components
             _sensitivity = sensitivity;
         }
 
-        public void Tick()
+        public void Rotate(float angle)
         {
-            Rotate();
-        }
-
-        private void Rotate()
-        {
-            _horizontalAngle += _sensitivity * Input.GetAxis(Axis);
+            _horizontalAngle += _sensitivity * angle;
 
             _transform.rotation = Quaternion.Euler(0, _horizontalAngle, 0);
         }

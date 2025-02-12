@@ -19,10 +19,14 @@ namespace Game.Controllers
                 .AsSingle()
                 .NonLazy();
 
+            Container.BindInterfacesTo<PlayerRotationController>()
+                .AsSingle()
+                .NonLazy();
+
             Container.BindInterfacesTo<PlayerJumpController>()
                 .AsSingle()
                 .NonLazy();
-            
+
             Container.BindInterfacesTo<PlayerInteractionController>()
                 .AsSingle()
                 .NonLazy();
