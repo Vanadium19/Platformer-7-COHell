@@ -8,6 +8,7 @@ namespace Game.Menu.UI
 {
     public class LevelMenuPresenter : IInitializable, IDisposable
     {
+        private readonly KeyboardMenuController _keyboardMenuController;
         private readonly LevelController _levelController;
         private readonly MenuFacade _menuFacade;
         private readonly LevelMenu _levelMenu;
@@ -15,9 +16,11 @@ namespace Game.Menu.UI
         private readonly CompositeDisposable _disposables = new();
 
         public LevelMenuPresenter(LevelController levelController,
+            KeyboardMenuController keyboardMenuController,
             MenuFacade menuFacade,
             LevelMenu levelMenu)
         {
+            _keyboardMenuController = keyboardMenuController;
             _levelController = levelController;
             _menuFacade = menuFacade;
             _levelMenu = levelMenu;
@@ -26,8 +29,13 @@ namespace Game.Menu.UI
         public void Initialize()
         {
             _levelController.LevelLost.Subscribe(_ => OnLevelLost()).AddTo(_disposables);
+
             _levelMenu.LevelRestarted.Subscribe(_ => OnLevelRestarted()).AddTo(_disposables);
             _levelMenu.Exited.Subscribe(_ => OnExited()).AddTo(_disposables);
+
+            _keyboardMenuController.OnMenuOpened.Subscribe(_ => OnMenuOpened()).AddTo(_disposables);
+            _levelMenu.MenuOpened.Subscribe(_ => OnMenuOpened()).AddTo(_disposables);
+            _levelMenu.Continued.Subscribe(_ => OnContinued()).AddTo(_disposables);
         }
 
         public void Dispose()
@@ -50,6 +58,17 @@ namespace Game.Menu.UI
         private void OnExited()
         {
             _menuFacade.ReturnToMainMenu();
+        }
+
+        private void OnMenuOpened()
+        {
+            _levelMenu.EnableMenu(true);
+            _menuFacade.PauseGame();
+        }
+
+        private void OnContinued()
+        {
+            _menuFacade.ContinueGame();
         }
     }
 }

@@ -6,11 +6,11 @@ namespace Game.Controllers
     public class CameraController : IInitializable, ILateTickable
     {
         private const string Axis = "Mouse Y";
-        
+
         private readonly float _sensitivity;
         private readonly float _verticalMinAngle;
         private readonly float _verticalMaxAngle;
-        
+
         private Transform _transform;
         private float _verticalAngle;
         private float _horizontalAngle;
@@ -30,6 +30,9 @@ namespace Game.Controllers
 
         public void LateTick()
         {
+            if (Time.timeScale == 0)
+                return;
+
             Rotate();
         }
 
@@ -38,7 +41,7 @@ namespace Game.Controllers
             _horizontalAngle = _transform.eulerAngles.y;
             _verticalAngle -= Input.GetAxis(Axis) * _sensitivity;
             _verticalAngle = Mathf.Clamp(_verticalAngle, _verticalMinAngle, _verticalMaxAngle);
-            
+
             _transform.rotation = Quaternion.Euler(_verticalAngle, _horizontalAngle, 0);
         }
     }

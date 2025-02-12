@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Controllers;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Menu.UI
@@ -6,6 +7,7 @@ namespace Game.Menu.UI
     public class LevelMenuInstaller : MonoInstaller
     {
         [SerializeField] private LevelMenu _levelMenu;
+        [SerializeField] private GameSettingsView _gameSettingsView;
 
         public override void InstallBindings()
         {
@@ -13,7 +15,19 @@ namespace Game.Menu.UI
                 .FromInstance(_levelMenu)
                 .AsSingle();
 
+            Container.BindInterfacesAndSelfTo<KeyboardMenuController>()
+                .AsSingle()
+                .NonLazy();
+
             Container.BindInterfacesTo<LevelMenuPresenter>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<GameSettingsView>()
+                .FromInstance(_gameSettingsView)
+                .AsSingle();
+
+            Container.BindInterfacesTo<GameSettingsPresenter>()
                 .AsSingle()
                 .NonLazy();
         }

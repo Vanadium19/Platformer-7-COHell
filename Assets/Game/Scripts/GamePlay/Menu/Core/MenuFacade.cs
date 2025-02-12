@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Game.Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +7,13 @@ namespace Game.Menu.Core
 {
     public class MenuFacade
     {
+        private readonly IGameSettings _gameSettings;
+
+        public MenuFacade(IGameSettings gameSettings)
+        {
+            _gameSettings = gameSettings;
+        }
+
         public void LoadGame()
         {
             SceneManager.LoadScene((int)SceneNumber.Game);
@@ -15,9 +21,7 @@ namespace Game.Menu.Core
 
         public void SetVolume(float volume)
         {
-            throw new NotImplementedException();
-            // _gameSettings.SetVolume(volume);
-            // _gameSaveLoader.Save();
+            _gameSettings.SetVolume(volume);
         }
 
         public void PauseGame()

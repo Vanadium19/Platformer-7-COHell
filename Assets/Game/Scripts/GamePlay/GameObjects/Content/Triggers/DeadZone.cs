@@ -2,7 +2,7 @@
 using Game.Core.Components;
 using UnityEngine;
 
-namespace Game.Content.Environment
+namespace Game.Content.Triggers
 {
     public class DeadZone : MonoBehaviour
     {
