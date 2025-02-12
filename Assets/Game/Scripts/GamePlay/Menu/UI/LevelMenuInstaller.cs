@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Controllers;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Menu.UI
@@ -13,6 +14,10 @@ namespace Game.Menu.UI
             Container.Bind<LevelMenu>()
                 .FromInstance(_levelMenu)
                 .AsSingle();
+
+            Container.BindInterfacesAndSelfTo<KeyboardMenuController>()
+                .AsSingle()
+                .NonLazy();
 
             Container.BindInterfacesTo<LevelMenuPresenter>()
                 .AsSingle()

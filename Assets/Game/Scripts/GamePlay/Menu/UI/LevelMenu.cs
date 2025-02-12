@@ -33,7 +33,7 @@ namespace Game.Menu.UI
             _restartCommand.BindTo(_restartButton).AddTo(_disposable);
             _restartCommand.BindTo(_restartButton).AddTo(_disposable);
 
-            _openMenuCommand.BindToOnClick(_openButton, _ => EnableMenu(true)).AddTo(_disposable);
+            _openMenuCommand.BindTo(_openButton).AddTo(_disposable);
             _continueCommand.BindToOnClick(_continueButton, _ => EnableMenu(false)).AddTo(_disposable);
 
             foreach (var button in _exitButtons)
