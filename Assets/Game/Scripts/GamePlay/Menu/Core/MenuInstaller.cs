@@ -14,6 +14,10 @@ namespace Game.Menu.Core
             Container.Bind<MenuFacade>()
                 .AsCached()
                 .NonLazy();
+
+            Container.BindInterfacesTo<GameSettings>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

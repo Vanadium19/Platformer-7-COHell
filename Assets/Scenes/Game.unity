@@ -427,8 +427,8 @@ RectTransform:
   m_Children:
   - {fileID: 1858460712}
   - {fileID: 88599944}
-  - {fileID: 1506228711}
   - {fileID: 1822711789}
+  - {fileID: 1506228711}
   m_Father: {fileID: 884752264}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -487,6 +487,7 @@ GameObject:
   - component: {fileID: 265458571}
   - component: {fileID: 265458570}
   - component: {fileID: 265458569}
+  - component: {fileID: 265458574}
   m_Layer: 5
   m_Name: '[Canvas]'
   m_TagString: Untagged
@@ -599,6 +600,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &265458574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265458568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d63adb9ab1b4114a7b027eae8fbaaa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _volumeSlider: {fileID: 1822711790}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,6 +1416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelMenu: {fileID: 265458569}
+  _gameSettingsView: {fileID: 265458574}
 --- !u!1 &1170724761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2669,7 +2684,7 @@ GameObject:
   - component: {fileID: 1822711789}
   - component: {fileID: 1822711790}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: VolumeSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
