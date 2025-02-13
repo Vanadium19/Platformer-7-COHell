@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, ITickable, IDisposable, IMovable
+    public class Character : IInitializable, ITickable, IDisposable
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
@@ -16,7 +16,6 @@ namespace Game.Content.Player
         private readonly CompositeDisposable _disposables = new();
 
         private Vector3 _spawnPosition;
-        private Transform _currentParent;
 
         public Character(Transform transform,
             MoveComponent mover,
@@ -50,24 +49,9 @@ namespace Game.Content.Player
             _disposables.Dispose();
         }
 
-        public void Move(Vector3 direction)
-        {
-            _transform.SetParent(null);
-
-            _mover.Move(direction);
-
-            _transform.SetParent(_currentParent);
-        }
-
-        public void AddExtraVelocity(Vector3 velocity)
-        {
-            _mover.AddExtraVelocity(velocity);
-        }
-
         public void SetParent(Transform parent)
         {
             _transform.SetParent(parent);
-            _currentParent = parent;
         }
 
         public void ResetPlayer()

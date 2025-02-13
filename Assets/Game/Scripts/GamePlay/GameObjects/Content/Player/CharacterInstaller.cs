@@ -41,7 +41,7 @@ namespace Game.Content.Player
                 .AsSingle();
 
             //Components
-            Container.Bind<MoveComponent>()
+            Container.BindInterfacesAndSelfTo<MoveComponent>()
                 .AsSingle()
                 .WithArguments(_speed);
 

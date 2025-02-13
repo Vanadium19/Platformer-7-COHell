@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Core.Components
 {
-    public class MoveComponent : EntityComponent
+    public class MoveComponent : EntityComponent, IMovable
     {
         private readonly Transform _transform;
         private readonly Rigidbody _rigidbody;
