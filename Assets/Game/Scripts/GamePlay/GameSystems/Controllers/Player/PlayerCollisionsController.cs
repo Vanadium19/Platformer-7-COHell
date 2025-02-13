@@ -28,7 +28,12 @@ namespace Game.Controllers
                 else if (entity.TryGet(out Box box))
                     _player.SetParent(collision.collider.transform, entity.Get<Rigidbody>());
             }
+            else if(collision.collider.TryGetComponent(out ResponsivePlatform responsivePlatform) && CheckNormal(collision))
+            {
+                _player.SetParent(collision.collider.transform);
+            }
         }
+
 
         private void OnTriggerEnter(Collider other)
         {
@@ -49,6 +54,10 @@ namespace Game.Controllers
                 {
                     _player.SetParent(null);
                 }
+            }
+            else if (collision.collider.TryGetComponent(out ResponsivePlatform responsivePlatform))
+            {
+                _player.SetParent(null);
             }
         }
 
