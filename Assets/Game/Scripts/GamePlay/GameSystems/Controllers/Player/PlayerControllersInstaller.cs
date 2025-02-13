@@ -3,18 +3,21 @@ using Zenject;
 
 namespace Game.Controllers
 {
-    [CreateAssetMenu(
-        fileName = "PlayerControllersInstaller",
-        menuName = "Zenject/New PlayerControllersInstaller"
-    )]
-    public class PlayerControllersInstaller : ScriptableObjectInstaller
+    public class PlayerControllersInstaller : MonoInstaller
     {
-        [SerializeField] private float _sensitivity = 1.2f;
+        [SerializeField] private PlayerCollisionsController _collisionsController;
+
+        [Header("Settings")] [SerializeField] private float _sensitivity = 1.2f;
         [SerializeField] private float _verticalMinAngle = 10f;
         [SerializeField] private float _verticalMaxAngle = 45f;
 
         public override void InstallBindings()
         {
+            Container.Bind<PlayerCollisionsController>()
+                .FromInstance(_collisionsController)
+                .AsSingle()
+                .NonLazy();
+
             Container.BindInterfacesTo<PlayerMoveController>()
                 .AsSingle()
                 .NonLazy();

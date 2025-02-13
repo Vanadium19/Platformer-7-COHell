@@ -10,7 +10,6 @@ namespace Game.Content.Player
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
-        private readonly GroundChecker _groundChecker;
         private readonly HealthComponent _health;
 
         private readonly ReactiveProperty<bool> _isMoving = new();
@@ -27,7 +26,6 @@ namespace Game.Content.Player
         {
             _transform = transform;
             _mover = mover;
-            _groundChecker = groundChecker;
             _health = health;
 
             _spawnPosition = transform.position;
@@ -39,7 +37,6 @@ namespace Game.Content.Player
 
         public void Initialize()
         {
-            _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
             _health.Died.Subscribe(_ => OnCharacterDied()).AddTo(_disposables);
         }
 
@@ -67,6 +64,12 @@ namespace Game.Content.Player
             _mover.AddExtraVelocity(velocity);
         }
 
+        public void SetParent(Transform parent)
+        {
+            _transform.SetParent(parent);
+            _currentParent = parent;
+        }
+
         public void ResetPlayer()
         {
             _transform.position = _spawnPosition;
@@ -84,15 +87,9 @@ namespace Game.Content.Player
             JumpComponent jumper,
             MoveComponent mover)
         {
-            jumper.AddCondition(groundChecker.CheckGround);
+            jumper.AddCondition(() => groundChecker.IsGrounded.Value);
             jumper.AddCondition(() => !health.IsDead);
             mover.AddCondition(() => !health.IsDead);
-        }
-
-        private void OnParentChanged(Transform parent)
-        {
-            _transform.SetParent(parent);
-            _currentParent = parent;
         }
 
         private void OnCharacterDied()

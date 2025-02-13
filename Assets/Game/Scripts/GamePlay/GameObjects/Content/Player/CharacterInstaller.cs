@@ -10,7 +10,6 @@ namespace Game.Content.Player
     {
         [SerializeField] private Transform _transform;
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private CollisionReceiver _platformTracker;
 
         [Header("Health Settings")] [SerializeField] private int _maxHealth = 10;
 
@@ -56,7 +55,7 @@ namespace Game.Content.Player
 
             Container.BindInterfacesAndSelfTo<GroundChecker>()
                 .AsSingle()
-                .WithArguments(_groundCheckParams, _platformTracker);
+                .WithArguments(_groundCheckParams);
 
             Container.BindInterfacesAndSelfTo<HealthComponent>()
                 .AsSingle()
