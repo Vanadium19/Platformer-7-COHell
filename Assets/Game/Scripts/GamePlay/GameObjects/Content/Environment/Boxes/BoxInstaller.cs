@@ -13,6 +13,11 @@ namespace Game.Content.Environment
 
         public override void InstallBindings()
         {
+            //Main
+            Container.Bind<Box>()
+                .AsSingle()
+                .NonLazy();
+
             //MonoBehaviors
             Container.Bind<Rigidbody>()
                 .FromInstance(_rigidbody)
