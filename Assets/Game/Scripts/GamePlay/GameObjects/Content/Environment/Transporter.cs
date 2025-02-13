@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Game.Core;
 using Game.Core.Components;
 using UnityEngine;
@@ -6,59 +7,39 @@ using Zenject;
 
 namespace Game.Content.Environment
 {
-    public class Transporter : IInitializable, IFixedTickable, IDisposable
+    public class Transporter : IFixedTickable
     {
-        private readonly TriggerReceiver _playerTracker;
         private readonly Transform _transform;
         private readonly float _speed;
 
-        private IMovable _target;
+        private readonly List<IMovable> _targets = new();
 
-        public Transporter(TriggerReceiver playerTracker, Transform transform, float speed)
+        public Transporter(Transform transform, float speed)
         {
-            _playerTracker = playerTracker;
             _transform = transform;
             _speed = speed;
         }
 
-        public void Initialize()
-        {
-            _playerTracker.Entered += OnEntered;
-            _playerTracker.Exited += OnExited;
-        }
-
         public void FixedTick()
         {
-            if (_target != null)
-                _target.AddExtraVelocity(_transform.forward * _speed);
+            foreach (var target in _targets)
+                target.AddExtraVelocity(_transform.forward * _speed);
         }
 
-        public void Dispose()
+        public void AddTarget(IMovable target)
         {
-            _playerTracker.Entered -= OnEntered;
-            _playerTracker.Exited -= OnExited;
+            if (_targets == null)
+                return;
+
+            _targets.Add(target);
         }
 
-        private void OnEntered(Collider target)
+        public void RemoveTarget(IMovable target)
         {
-            if (target.TryGetComponent(out IEntity entity))
-            {
-                if (entity.TryGet(out IMovable player))
-                {
-                    _target = player;
-                }
-            }
-        }
+            if (_targets == null)
+                return;
 
-        private void OnExited(Collider target)
-        {
-            if (target.TryGetComponent(out IEntity entity))
-            {
-                if (entity.TryGet(out IMovable player))
-                {
-                    _target = null;
-                }
-            }
+            _targets.Remove(target);
         }
     }
 }
