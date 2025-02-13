@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 4228183698170213413}
   - component: {fileID: 6417373603418102582}
   - component: {fileID: 8140829815696421619}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platfrom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
