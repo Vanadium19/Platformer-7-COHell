@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Content.Environment;
+﻿using Game.Content.Environment;
 using Game.Content.Player;
 using Game.Core;
 using Game.Core.Components;
@@ -22,14 +21,12 @@ namespace Game.Controllers
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log(collision.gameObject.name);
-
             if (collision.collider.TryGetComponent(out IEntity entity) && CheckNormal(collision))
             {
                 if (entity.TryGet(out Platform platform))
-                {
                     _player.SetParent(collision.collider.transform);
-                }
+                else if (entity.TryGet(out Box box))
+                    _player.SetParent(collision.collider.transform, entity.Get<Rigidbody>());
             }
         }
 
@@ -48,7 +45,7 @@ namespace Game.Controllers
         {
             if (collision.collider.TryGetComponent(out IEntity entity))
             {
-                if (entity.TryGet(out Platform platform))
+                if (entity.TryGet(out Platform platform) || entity.TryGet(out Box box))
                 {
                     _player.SetParent(null);
                 }

@@ -49,9 +49,10 @@ namespace Game.Content.Player
             _disposables.Dispose();
         }
 
-        public void SetParent(Transform parent)
+        public void SetParent(Transform parent, Rigidbody rigidbody = null)
         {
             _transform.SetParent(parent);
+            _mover.SetParent(rigidbody);
         }
 
         public void ResetPlayer()

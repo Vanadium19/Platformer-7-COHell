@@ -6,5 +6,6 @@ namespace Game.Core.Components
     {
         public void Move(Vector3 direction);
         public void AddExtraVelocity(Vector3 velocity);
+        public void SetParent(Rigidbody parent);
     }
 }
