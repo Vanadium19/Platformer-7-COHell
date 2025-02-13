@@ -6,18 +6,16 @@ using Zenject;
 
 namespace Game.Content.Player
 {
-    public class Character : IInitializable, ITickable, IDisposable, IMovable
+    public class Character : IInitializable, ITickable, IDisposable
     {
         private readonly Transform _transform;
         private readonly MoveComponent _mover;
-        private readonly GroundChecker _groundChecker;
         private readonly HealthComponent _health;
 
         private readonly ReactiveProperty<bool> _isMoving = new();
         private readonly CompositeDisposable _disposables = new();
 
         private Vector3 _spawnPosition;
-        private Transform _currentParent;
 
         public Character(Transform transform,
             MoveComponent mover,
@@ -27,7 +25,6 @@ namespace Game.Content.Player
         {
             _transform = transform;
             _mover = mover;
-            _groundChecker = groundChecker;
             _health = health;
 
             _spawnPosition = transform.position;
@@ -39,7 +36,6 @@ namespace Game.Content.Player
 
         public void Initialize()
         {
-            _groundChecker.ParentChanged.Subscribe(OnParentChanged).AddTo(_disposables);
             _health.Died.Subscribe(_ => OnCharacterDied()).AddTo(_disposables);
         }
 
@@ -53,18 +49,10 @@ namespace Game.Content.Player
             _disposables.Dispose();
         }
 
-        public void Move(Vector3 direction)
+        public void SetParent(Transform parent, Rigidbody rigidbody = null)
         {
-            _transform.SetParent(null);
-
-            _mover.Move(direction);
-
-            _transform.SetParent(_currentParent);
-        }
-
-        public void AddExtraVelocity(Vector3 velocity)
-        {
-            _mover.AddExtraVelocity(velocity);
+            _transform.SetParent(parent);
+            _mover.SetParent(rigidbody);
         }
 
         public void ResetPlayer()
@@ -84,15 +72,9 @@ namespace Game.Content.Player
             JumpComponent jumper,
             MoveComponent mover)
         {
-            jumper.AddCondition(groundChecker.CheckGround);
+            jumper.AddCondition(() => groundChecker.IsGrounded.Value);
             jumper.AddCondition(() => !health.IsDead);
             mover.AddCondition(() => !health.IsDead);
-        }
-
-        private void OnParentChanged(Transform parent)
-        {
-            _transform.SetParent(parent);
-            _currentParent = parent;
         }
 
         private void OnCharacterDied()

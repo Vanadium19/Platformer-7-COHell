@@ -1,67 +1,34 @@
-﻿using System;
-using Game.Content.Environment;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 using Zenject;
 
 namespace Game.Core.Components
 {
-    public class GroundChecker : IInitializable, IDisposable
+    public class GroundChecker : ITickable
     {
         private const int ColliderBufferSize = 1;
 
-        private readonly CollisionReceiver _platformTracker;
         private readonly Transform _jumpPoint;
         private readonly Vector3 _overlapSize;
         private readonly int _layerMask;
 
-        private readonly ReactiveCommand<Transform> _parentChanged = new();
+        private readonly ReactiveProperty<bool> _isGrounded = new();
 
-        public GroundChecker(GroundCheckParams checkParams, CollisionReceiver platformTracker)
+        public GroundChecker(GroundCheckParams checkParams)
         {
             _jumpPoint = checkParams.Point;
             _overlapSize = checkParams.OverlapSize;
             _layerMask = checkParams.GroundLayer;
-            _platformTracker = platformTracker;
         }
 
-        public IObservable<Transform> ParentChanged => _parentChanged;
+        public IReadOnlyReactiveProperty<bool> IsGrounded => _isGrounded;
 
-        public void Initialize()
+        public void Tick()
         {
-            _platformTracker.Entered += OnEntered;
-            _platformTracker.Exited += OnExited;
+            _isGrounded.Value = CheckGround();
         }
 
-        public void Dispose()
-        {
-            _platformTracker.Entered -= OnEntered;
-            _platformTracker.Exited -= OnExited;
-        }
-
-        private void OnEntered(Collision collision)
-        {
-            if (collision.collider.TryGetComponent(out IEntity entity) && CheckNormal(collision))
-            {
-                if (entity.TryGet(out Platform platform))
-                {
-                    _parentChanged.Execute(collision.collider.transform);
-                }
-            }
-        }
-
-        private void OnExited(Collision collision)
-        {
-            if (collision.collider.TryGetComponent(out IEntity entity))
-            {
-                if (entity.TryGet(out Platform platform))
-                {
-                    _parentChanged.Execute(null);
-                }
-            }
-        }
-
-        public bool CheckGround()
+        private bool CheckGround()
         {
             System.Buffers.ArrayPool<Collider> arrayPool = System.Buffers.ArrayPool<Collider>.Shared;
             Collider[] colliders = arrayPool.Rent(ColliderBufferSize);
@@ -70,17 +37,6 @@ namespace Game.Core.Components
 
             arrayPool.Return(colliders);
             return size > 0;
-        }
-
-        private bool CheckNormal(Collision target)
-        {
-            foreach (var contact in target.contacts)
-            {
-                if (contact.normal == Vector3.up)
-                    return true;
-            }
-
-            return false;
         }
     }
 }

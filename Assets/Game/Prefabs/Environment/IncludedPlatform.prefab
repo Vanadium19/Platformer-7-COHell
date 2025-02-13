@@ -237,7 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25f417b656f4ced967702fe36c302e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trigger: {fileID: 5889122480071218248}
   _platform: {fileID: 3297565597941556174}
   _delay: 3
   _speed: 3
@@ -271,7 +270,7 @@ GameObject:
   - component: {fileID: 3658371838497918573}
   - component: {fileID: 7536685651721258632}
   - component: {fileID: 6147881728771178621}
-  - component: {fileID: 5889122480071218248}
+  - component: {fileID: 8261791724448404359}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -366,7 +365,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5889122480071218248
+--- !u!114 &8261791724448404359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,9 +374,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3909362239920497973}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 194af650ec1e4b60b9806dd6428a99ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c263c421d7c405dbd37e713422af41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _context: {fileID: 909565037615249382}
 --- !u!1 &5741755481148815120
 GameObject:
   m_ObjectHideFlags: 0

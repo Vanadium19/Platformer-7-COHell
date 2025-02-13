@@ -1,5 +1,4 @@
-﻿using Game.Core.Components;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Game.Content.Environment
@@ -7,16 +6,17 @@ namespace Game.Content.Environment
     public class TransporterInstaller : MonoInstaller
     {
         [SerializeField] private Transform _transform;
-        [SerializeField] private TriggerReceiver _playerTracker;
         [SerializeField] private float _speed;
 
         public override void InstallBindings()
         {
+            //Main
             Container.BindInterfacesAndSelfTo<Transporter>()
                 .AsSingle()
-                .WithArguments(_playerTracker, _speed)
+                .WithArguments( _speed)
                 .NonLazy();
 
+            //MonoBehaviors
             Container.Bind<Transform>()
                 .FromInstance(_transform)
                 .AsSingle();

@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace Game.Core.Components
 {
-    public class MoveComponent : EntityComponent
+    public class MoveComponent : EntityComponent, IMovable
     {
         private readonly Transform _transform;
         private readonly Rigidbody _rigidbody;
         private readonly float _speed;
 
         private Vector3 _extraVelocity;
+        private Rigidbody _parent;
 
         public MoveComponent(Transform transform, Rigidbody rigidbody, float speed)
         {
@@ -33,6 +34,9 @@ namespace Game.Core.Components
             velocity = _transform.rotation * velocity;
             velocity += _extraVelocity;
 
+            if (_parent != null)
+                velocity += _parent.velocity;
+
             IsMoving = !Mathf.Approximately(velocity.x, 0f);
 
             _rigidbody.velocity = velocity;
@@ -42,6 +46,11 @@ namespace Game.Core.Components
         public void AddExtraVelocity(Vector3 velocity)
         {
             _extraVelocity = velocity;
+        }
+
+        public void SetParent(Rigidbody parent)
+        {
+            _parent = parent;
         }
 
         public void Freeze(bool value)

@@ -7,7 +7,6 @@ namespace Game.Content.Environment
 {
     public class IncludedPlatformInstaller : MonoInstaller
     {
-        [SerializeField] private TriggerReceiver _trigger;
         [SerializeField] private Transform _platform;
         [SerializeField] private float _delay = 2f;
 
@@ -20,15 +19,11 @@ namespace Game.Content.Environment
         public override void InstallBindings()
         {
             //Main
-            Container.BindInterfacesAndSelfTo<IncludedPlatform>()
+            Container.BindInterfacesAndSelfTo<InteractionPlatform>()
                 .AsSingle()
                 .NonLazy();
 
             //MonoBehaviors
-            Container.Bind<TriggerReceiver>()
-                .FromInstance(_trigger)
-                .AsSingle();
-
             Container.Bind<Transform>()
                 .FromInstance(_platform)
                 .AsSingle();
