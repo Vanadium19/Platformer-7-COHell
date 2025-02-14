@@ -13,13 +13,11 @@ namespace Game.Content.Player
 
         [Header("Health Settings")] [SerializeField] private int _maxHealth = 10;
 
-        [Header("Move Settings")] [SerializeField] private float _speed = 3f;
+        [Header("Move Settings")] [SerializeField] private MoveParams _moveParams;
 
         [Header("Rotation Settings")] [SerializeField] private float _sensitivity = 5f;
 
-        [Header("Jump Settings")] [SerializeField] private float _jumpForce = 5f;
-        [SerializeField] private float _extraJumpForce = 3f;
-        [SerializeField] private float _jumpDelay = 1f;
+        [Header("Jump Settings")] [SerializeField] private JumpParams _jumpParams;
         [SerializeField] private GroundCheckParams _groundCheckParams;
 
         [Header("View Settings")] [SerializeField] private PlayerView _playerView;
@@ -41,13 +39,13 @@ namespace Game.Content.Player
                 .AsSingle();
 
             //Components
-            Container.BindInterfacesAndSelfTo<MoveComponent>()
+            Container.BindInterfacesAndSelfTo<PlayerMoveComponent>()
                 .AsSingle()
-                .WithArguments(_speed);
+                .WithArguments(_moveParams);
 
             Container.BindInterfacesAndSelfTo<JumpComponent>()
                 .AsSingle()
-                .WithArguments(_jumpForce, _extraJumpForce, _jumpDelay);
+                .WithArguments(_jumpParams);
 
             Container.BindInterfacesTo<RotationComponent>()
                 .AsSingle()

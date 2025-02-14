@@ -18,7 +18,7 @@ namespace Game.Content.Player
         private Vector3 _spawnPosition;
 
         public Character(Transform transform,
-            MoveComponent mover,
+            PlayerMoveComponent mover,
             JumpComponent jumper,
             GroundChecker groundChecker,
             HealthComponent health)

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Core.Components
 {
@@ -31,11 +29,8 @@ namespace Game.Core.Components
                 return;
 
             Vector3 velocity = direction * _speed + Vector3.up * _rigidbody.velocity.y;
-            velocity = _transform.rotation * velocity;
-            velocity += _extraVelocity;
-
-            if (_parent != null)
-                velocity += _parent.velocity;
+            
+            UpdateSpeed(ref velocity);
 
             IsMoving = !Mathf.Approximately(velocity.x, 0f);
 
@@ -62,6 +57,15 @@ namespace Game.Core.Components
             }
 
             _rigidbody.isKinematic = value;
+        }
+
+        protected virtual void UpdateSpeed(ref Vector3 velocity)
+        {
+            velocity = _transform.rotation * velocity;
+            velocity += _extraVelocity;
+
+            if (_parent != null)
+                velocity += _parent.velocity;
         }
     }
 }
