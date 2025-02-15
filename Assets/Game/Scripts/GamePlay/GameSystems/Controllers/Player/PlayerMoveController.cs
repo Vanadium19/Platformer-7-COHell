@@ -18,7 +18,7 @@ namespace Game.Controllers
 
         public void FixedTick()
         {
-            Vector3 direction = Input.GetAxis(XAxis) * Vector3.right + Input.GetAxis(ZAxis) * Vector3.forward;
+            Vector3 direction = Input.GetAxisRaw(XAxis) * Vector3.right + Input.GetAxisRaw(ZAxis) * Vector3.forward;
 
             _player.Move(direction);
         }

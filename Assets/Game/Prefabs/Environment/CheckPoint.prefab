@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6325634375493967305}
   - component: {fileID: 300313387318418978}
   - component: {fileID: 6550691193585867631}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 4562667611990735637}
   - component: {fileID: 4886687350893383633}
   - component: {fileID: 1140945503531817631}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CheckPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1111439178365091931}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

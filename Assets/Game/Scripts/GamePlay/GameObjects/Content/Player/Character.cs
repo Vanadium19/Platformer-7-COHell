@@ -13,6 +13,7 @@ namespace Game.Content.Player
         private readonly HealthComponent _health;
 
         private readonly ReactiveProperty<bool> _isMoving = new();
+        private readonly ReactiveProperty<bool> _isFalling = new();
         private readonly CompositeDisposable _disposables = new();
 
         private Vector3 _spawnPosition;
@@ -33,6 +34,7 @@ namespace Game.Content.Player
         }
 
         public IReadOnlyReactiveProperty<bool> IsMoving => _isMoving;
+        public IReadOnlyReactiveProperty<bool> IsFalling => _isFalling;
 
         public void Initialize()
         {
@@ -42,6 +44,7 @@ namespace Game.Content.Player
         public void Tick()
         {
             _isMoving.Value = _mover.IsMoving && !_health.IsDead;
+            _isFalling.Value = _mover.IsFalling && !_health.IsDead;
         }
 
         public void Dispose()
