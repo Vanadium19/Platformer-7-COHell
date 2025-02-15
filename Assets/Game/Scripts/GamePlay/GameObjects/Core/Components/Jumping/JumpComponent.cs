@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UniRx;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Core.Components
@@ -8,6 +10,8 @@ namespace Game.Core.Components
         private readonly Rigidbody _rigidbody;
         private readonly JumpParams _params;
 
+        private readonly ReactiveCommand _jumpCommand = new();
+
         private float _currentTime;
 
         public JumpComponent(Rigidbody rigidbody, JumpParams jumpParams)
@@ -15,6 +19,8 @@ namespace Game.Core.Components
             _rigidbody = rigidbody;
             _params = jumpParams;
         }
+
+        public IObservable<Unit> Jumped => _jumpCommand;
 
         public void Tick()
         {
@@ -36,6 +42,7 @@ namespace Game.Core.Components
 
             _rigidbody.AddForce(force, ForceMode.Impulse);
             _currentTime = _params.Delay;
+            _jumpCommand.Execute();
             return true;
         }
 

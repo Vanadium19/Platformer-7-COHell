@@ -4,12 +4,16 @@ namespace Game.Core.Components
 {
     public class MoveComponent : EntityComponent, IMovable
     {
+        private const float Lapping = 0.5f;
+
         private readonly Transform _transform;
         private readonly Rigidbody _rigidbody;
         private readonly float _speed;
 
         private Vector3 _extraVelocity;
         private Rigidbody _parent;
+        private bool _isMoving;
+        private bool _isFalling;
 
         public MoveComponent(Transform transform, Rigidbody rigidbody, float speed)
         {
@@ -18,7 +22,8 @@ namespace Game.Core.Components
             _speed = speed;
         }
 
-        public bool IsMoving { get; private set; }
+        public bool IsMoving => _isMoving;
+        public bool IsFalling => _isFalling;
 
         public void Move(Vector3 direction)
         {
@@ -29,10 +34,11 @@ namespace Game.Core.Components
                 return;
 
             Vector3 velocity = direction * _speed + Vector3.up * _rigidbody.velocity.y;
+
+            _isMoving = Mathf.Abs(velocity.x) > Lapping || Mathf.Abs(velocity.z) > Lapping;
+            _isFalling = velocity.y < -Lapping;
             
             UpdateSpeed(ref velocity);
-
-            IsMoving = !Mathf.Approximately(velocity.x, 0f);
 
             _rigidbody.velocity = velocity;
             _extraVelocity = Vector3.zero;

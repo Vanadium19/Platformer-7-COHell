@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Game.Core.Components
 {
-    public class GroundChecker : ITickable
+    public class GroundChecker : ITickable, IGroundChecker
     {
         private const int ColliderBufferSize = 1;
 
