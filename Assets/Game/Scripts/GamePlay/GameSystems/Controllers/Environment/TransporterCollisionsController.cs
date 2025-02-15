@@ -35,9 +35,6 @@ namespace Game.Controllers.Environment
                 if (entity.TryGet(out IMovable target))
                 {
                     _transporter.RemoveTarget(target);
-
-                    if (entity.TryGet(out Box box))
-                        box.Remove();
                 }
             }
         }

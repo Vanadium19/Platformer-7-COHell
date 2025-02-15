@@ -9,7 +9,7 @@ namespace Game.View
     public class PlayerView : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
-        [SerializeField] private MeshRenderer _meshRenderer;
+        [SerializeField] private SkinnedMeshRenderer _meshRenderer;
         [SerializeField] private Color _color;
 
         [SerializeField] private int _duration = 2;

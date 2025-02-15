@@ -46,7 +46,7 @@ namespace Game.Core.Components
 
         public void AddExtraVelocity(Vector3 velocity)
         {
-            _extraVelocity = velocity;
+            _extraVelocity += velocity;
         }
 
         public void SetParent(Rigidbody parent)
