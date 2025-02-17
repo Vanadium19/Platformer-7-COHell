@@ -23,6 +23,8 @@ namespace Game.Controllers.Environment
             {
                 if (entity.TryGet(out IMovable target))
                 {
+                    // Debug.Log("Entered Transporter Collision Controller");
+                    
                     _transporter.AddTarget(target);
                 }
             }
@@ -34,6 +36,8 @@ namespace Game.Controllers.Environment
             {
                 if (entity.TryGet(out IMovable target))
                 {
+                    // Debug.Log("Exited Transporter Collision Controller");
+                    
                     _transporter.RemoveTarget(target);
                 }
             }
