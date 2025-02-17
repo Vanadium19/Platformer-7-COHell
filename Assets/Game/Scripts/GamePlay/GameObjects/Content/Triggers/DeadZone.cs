@@ -10,7 +10,7 @@ namespace Game.Content.Triggers
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Entered DeadZone");
+            // Debug.Log("Entered DeadZone");
             
             if (other.TryGetComponent(out IEntity entity))
             {

@@ -9,6 +9,8 @@ namespace Game.Controllers
 {
     public class PlayerCollisionsController : MonoBehaviour
     {
+        private const float NormalDotFactor = 0.5f;
+        
         private Character _player;
         private IInteractionList _interactionList;
 
@@ -76,7 +78,9 @@ namespace Game.Controllers
         {
             foreach (var contact in target.contacts)
             {
-                if (contact.normal == Vector3.up)
+                // Debug.Log($"Normal: {contact.normal} dot: {Vector3.Dot(contact.normal, Vector3.up)}");
+                
+                if (Vector3.Dot(contact.normal, Vector3.up) >= NormalDotFactor)
                     return true;
             }
 
