@@ -9,7 +9,7 @@ namespace Game.Content.Triggers
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out IEntity entity) && entity.TryGet(out Box box))
+            if (other.TryGetComponent(out IEntity entity) && entity.TryGet(out ISpawnable box))
                 box.Remove();
         }
     }

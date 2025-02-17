@@ -1,11 +1,11 @@
 ﻿using System;
-using UnityEngine;
+using Game.Core;
 
 namespace Game.Content.Environment
 {
-    public class Box
+    public class Box : ISpawnable
     {
-        public event Action<Box> Removed;
+        public event Action<ISpawnable> Removed;
 
         public void Remove()
         {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using Game.Core;
 using UnityEngine;
 using Zenject;
@@ -12,7 +11,7 @@ namespace Game.Content.Environment
         private readonly Vector3 _position;
         private readonly float _delay;
 
-        private readonly Dictionary<Box, Entity> _boxes = new();
+        private readonly Dictionary<ISpawnable, Entity> _boxes = new();
 
         private float _currentTime;
 
@@ -42,7 +41,7 @@ namespace Game.Content.Environment
             _currentTime = _delay;
         }
 
-        private void Despawn(Box box)
+        private void Despawn(ISpawnable box)
         {
             if (_boxes.Remove(box, out Entity entity))
             {
