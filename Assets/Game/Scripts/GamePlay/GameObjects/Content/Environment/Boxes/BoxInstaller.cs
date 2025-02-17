@@ -14,7 +14,7 @@ namespace Game.Content.Environment
         public override void InstallBindings()
         {
             //Main
-            Container.Bind<Box>()
+            Container.BindInterfacesAndSelfTo<Box>()
                 .AsSingle()
                 .NonLazy();
 

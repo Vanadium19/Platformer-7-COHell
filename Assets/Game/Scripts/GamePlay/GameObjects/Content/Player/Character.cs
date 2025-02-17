@@ -61,7 +61,7 @@ namespace Game.Content.Player
         public void ResetPlayer()
         {
             _transform.position = _spawnPosition;
-            _mover.Freeze(false);
+            // _mover.Freeze(false);
             _health.ResetHealth();
         }
 
@@ -82,7 +82,8 @@ namespace Game.Content.Player
 
         private void OnCharacterDied()
         {
-            _mover.Freeze(true);
+            // _mover.Freeze(true);
+            Debug.Log("Character die");
         }
     }
 }

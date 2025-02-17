@@ -27,6 +27,8 @@ namespace Game.Core.Components
 
         public void Move(Vector3 direction)
         {
+            _isFalling = _rigidbody.velocity.y < -Lapping;
+            
             if (_rigidbody.isKinematic)
                 return;
 
@@ -35,8 +37,7 @@ namespace Game.Core.Components
 
             Vector3 velocity = direction * _speed + Vector3.up * _rigidbody.velocity.y;
 
-            _isMoving = Mathf.Abs(velocity.x) > Lapping || Mathf.Abs(velocity.z) > Lapping;
-            _isFalling = velocity.y < -Lapping;
+            _isMoving = !_isFalling && Mathf.Abs(velocity.x) > Lapping || Mathf.Abs(velocity.z) > Lapping;
             
             UpdateSpeed(ref velocity);
 

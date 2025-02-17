@@ -10,5 +10,12 @@ namespace Game.Content.Environment
         {
             entity.Get<Transform>().position = position;
         }
+
+        protected override void OnDespawned(Entity item)
+        {
+            base.OnDespawned(item);
+
+            item.Get<Transform>().position = Vector3.zero;
+        }
     }
 }

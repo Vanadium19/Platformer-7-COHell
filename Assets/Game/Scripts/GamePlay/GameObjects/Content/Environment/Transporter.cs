@@ -31,6 +31,9 @@ namespace Game.Content.Environment
             if (_targets == null)
                 return;
 
+            if (_targets.Contains(target))
+                return;
+            
             _targets.Add(target);
         }
 
