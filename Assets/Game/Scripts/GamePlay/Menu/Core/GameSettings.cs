@@ -17,6 +17,7 @@ namespace Game.Menu.Core
 
         public void SetVolume(float volume)
         {
+            Debug.Log("Game settings set to " + volume);
             _volume = volume;
             AudioListener.volume = volume;
         }
